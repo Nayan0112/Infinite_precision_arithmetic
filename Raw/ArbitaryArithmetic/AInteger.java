@@ -34,6 +34,25 @@ public class AInteger {
         return str;
     }
 
+    public Boolean compareString(String s1, String s2){
+        int len1 = s1.length();
+        int len2 = s2.length();
+    
+        if(len1 == len2){
+            int i = 0;
+            while(i < len1 && s1.charAt(i) == s2.charAt(i)){
+                i++;
+            }
+            if (i == len1) return true;  
+            return s1.charAt(i) > s2.charAt(i); 
+        }else if(len1 < len2){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
+
     public String getValue(){
         return ((this.isNegative ? "-" : "") + truncate(this.value));
     }
@@ -52,36 +71,14 @@ public class AInteger {
     public AInteger subtract(AInteger other) {
         if (this.isNegative == other.isNegative) {
 
-            int len1 = this.value.length();
-            int len2 = other.value.length();
-
-            if(len1 == len2){
-                int t1 = this.value.charAt(0);
-                int t2 = other.value.charAt(0);
-                int i = 0, j = 0;
-
-                while(t1 == t2){
-                    t1 = this.value.charAt(++i);
-                    t2 = other.value.charAt(++j);
-                }
-
-                if(t1 < t2){
-                    String result = subtractStrings(other.value, this.value);
-                    return new AInteger((this.isNegative ? "" : "-") + result);
-                }else{
-                    String result = subtractStrings(this.value, other.value);
-                    return new AInteger((this.isNegative ? "-" : "") + result); 
-                }
-            }else if(len1 < len2){
-                String result = subtractStrings(other.value, this.value);
-                return new AInteger((this.isNegative ? "" : "-") + result);
-            }else{
-
+            if(compareString(this.value, other.value)){
                 String result = subtractStrings(this.value, other.value);
                 return new AInteger((this.isNegative ? "-" : "") + result);
+            }else{
+                String result = subtractStrings(other.value, this.value);
+                return new AInteger((this.isNegative ? "" : "-") + result);
             }
-
-            
+ 
         } else {
             AInteger temp = new AInteger(other.value);
             temp.isNegative = !other.isNegative;
@@ -183,12 +180,68 @@ public class AInteger {
 
     }
 
+    public AInteger divide(AInteger other){
+
+        if(this.value.equals("0")){
+            return new AInteger("0");
+        }
+        if(other.value.equals("0")){
+            throw new ArithmeticException("Division by zero");
+        }
+    
+        AInteger temp = new AInteger();
+
+        if(this.isNegative != other.isNegative){
+            temp.isNegative = true;
+        }
+
+        other.isNegative = false;
+    
+        String num1 = this.value;
+        String num2 = other.value;
+        String result = "";
+        AInteger remainder = new AInteger("0");
+        int size = num2.length();
+    
+        int j = 0;
+        while ((j * size) < num1.length()) {
+            int start = j * size;
+            int end = (j + 1) * size;
+
+            if(end > num1.length()) end = num1.length();
+    
+            String current = remainder.getValue() + num1.substring(start, end);
+            AInteger currentA = new AInteger(current);
+    
+            AInteger i = new AInteger("1");
+            AInteger acc = other.multiply(i);
+    
+            while (compareString(currentA.getValue(), acc.getValue())) {
+                i = i.add(new AInteger("1"));
+                acc = other.multiply(i);
+            }
+    
+            i = i.subtract(new AInteger("1"));
+            acc = other.multiply(i);
+            remainder = currentA.subtract(acc);
+    
+            result += i.getValue();
+            j++;
+        }
+    
+        other.isNegative = true;
+    
+        temp.value = temp.truncate(result);
+        return temp;
+    }
+    
 
 
+    //testing RAW
     public static void main(String[] args) {
         // Create AInteger instances
-        AInteger num1 = new AInteger("2222222223");
-        AInteger num2 = new AInteger("2222222222");
+        AInteger num1 = new AInteger("2222222221");
+        AInteger num2 = new AInteger("-10000000000000000");
 
         // Add two large numbers
         AInteger sum = num1.add(num2);
@@ -201,6 +254,10 @@ public class AInteger {
         //Multiply two large numbers
         AInteger prod = num1.multiply(num2);
         System.out.println("Product: " + prod.getValue());
+
+        //Divide two large numbers
+        AInteger quo = num1.divide(num2);
+        System.out.println("Quotent: " + quo.getValue());
     }
 
 
