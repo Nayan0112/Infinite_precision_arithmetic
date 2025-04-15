@@ -136,6 +136,12 @@ public class AInteger {
         String num1 = this.value;
         String num2 = other.value;
 
+          if (num1.equals("0") || num2.equals("0")) {
+            temp.value = "0";
+            temp.isNegative = false;
+            return temp;
+        }
+
         if(this.isNegative == other.isNegative){
             temp.isNegative = false;
         }else{
@@ -164,7 +170,7 @@ public class AInteger {
         for(int digit : result){
             if (digit == 0 && check) continue;
             check = false;
-            temp.value = digit + temp.value;
+            temp.value = temp.value + digit;
         }
 
         return temp;
@@ -175,8 +181,8 @@ public class AInteger {
 
     public static void main(String[] args) {
         // Create AInteger instances
-        AInteger num1 = new AInteger("-22234235346745765869698786856745745643");
-        AInteger num2 = new AInteger("22234235346745765869698786856745745643");
+        AInteger num1 = new AInteger("22234235346745765869698786856745745643");
+        AInteger num2 = new AInteger("0");
 
         // Add two large numbers
         AInteger sum = num1.add(num2);
