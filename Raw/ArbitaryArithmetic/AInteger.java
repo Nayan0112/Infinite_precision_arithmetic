@@ -1,0 +1,195 @@
+public class AInteger {
+
+    public String value;
+    public Boolean isNegative;
+
+    public AInteger(){
+        this.isNegative = false;
+        this.value = "0";
+    }
+
+    public AInteger(String s){
+        if (s.charAt(0) == '-') {
+            this.isNegative = true;
+            this.value = s.substring(1);
+        } else {
+            this.isNegative = false;
+            this.value = s;
+        }
+    }
+
+    public AInteger(AInteger other) {
+        this.value = other.value;
+        this.isNegative = other.isNegative;
+    }
+
+    public static AInteger parse(String s) {
+        return new AInteger(s);
+    }
+
+    private String truncate(String str) {
+        while (str.length() > 1 && str.charAt(0) == '0') {
+            str = str.substring(1);
+        }
+        return str;
+    }
+
+    public String getValue(){
+        return ((this.isNegative ? "-" : "") + truncate(this.value));
+    }
+
+    public AInteger add(AInteger other){
+        if(this.isNegative == other.isNegative){
+            String result = addStrings(this.value, other.value);
+            return new AInteger((this.isNegative ? "-" : "") + result);
+        }else{
+            AInteger temp = new AInteger(other.value);
+            temp.isNegative = !other.isNegative;
+            return this.subtract(temp);
+        }
+    }
+
+    public AInteger subtract(AInteger other) {
+        if (this.isNegative == other.isNegative) {
+
+            int len1 = this.value.length();
+            int len2 = other.value.length();
+
+            if(len1 == len2){
+                int t1 = this.value.charAt(0);
+                int t2 = other.value.charAt(0);
+
+                if(t1 < t2){
+                    String result = subtractStrings(other.value, this.value);
+                    return new AInteger((this.isNegative ? "" : "-") + result);
+                }else{
+                    String result = subtractStrings(this.value, other.value);
+                    return new AInteger((this.isNegative ? "-" : "") + result); 
+                }
+            }else if(len1 < len2){
+                String result = subtractStrings(other.value, this.value);
+                return new AInteger((this.isNegative ? "" : "-") + result);
+            }else{
+
+                String result = subtractStrings(this.value, other.value);
+                return new AInteger((this.isNegative ? "-" : "") + result);
+            }
+
+            
+        } else {
+            AInteger temp = new AInteger(other.value);
+            temp.isNegative = !other.isNegative;
+            return this.add(temp);
+        }
+    }
+
+    public String addStrings(String num1, String num2) {
+        String result = "";
+        int len1 = num1.length();
+        int len2 = num2.length();
+
+        int carry = 0;
+        int i = len1 - 1, j = len2 - 1;
+
+        while (i >= 0 || j >= 0 || carry != 0) {
+            int digit1 = i >= 0 ? num1.charAt(i) - '0' : 0;
+            int digit2 = j >= 0 ? num2.charAt(j) - '0' : 0;
+            int sum = digit1 + digit2 + carry;
+            result = String.valueOf(sum % 10) + result;
+            carry = sum / 10;
+            i--;
+            j--;
+        }
+        
+        return result;
+    }
+
+    public String subtractStrings(String num1, String num2) {
+        String result = "";
+        int len1 = num1.length();
+        int len2 = num2.length();
+        int borrow = 0;
+        int i = len1 - 1, j = len2 - 1;
+
+        while (i >= 0 || j >= 0) {
+            int digit1 = i >= 0 ? num1.charAt(i) - '0' : 0;
+            int digit2 = j >= 0 ? num2.charAt(j) - '0' : 0;
+            int diff = digit1 - digit2 - borrow;
+            if (diff < 0) {
+                diff += 10;
+                borrow = 1;
+            } else {
+                borrow = 0;
+            }
+            result = String.valueOf(diff) + result ;
+            i--;
+            j--;
+        }
+
+        return result;
+    }
+
+    public AInteger multiply( AInteger other){
+
+        AInteger temp = new AInteger();
+
+        String num1 = this.value;
+        String num2 = other.value;
+
+        if(this.isNegative == other.isNegative){
+            temp.isNegative = false;
+        }else{
+            temp.isNegative = true;
+        }
+
+        int len1 = num1.length();
+        int len2 = num2.length();
+        int[] result = new int[len1 + len2];
+    
+    
+        for (int i = len1 - 1; i >= 0; i--) {
+            for (int j = len2 - 1; j >= 0; j--) {
+                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+                int sum = mul + result[i + j + 1];
+    
+                result[i + j + 1] = sum % 10;
+                result[i + j] += sum / 10;
+            }
+        }
+
+        temp.value = "";
+
+        boolean check = true;
+
+        for(int digit : result){
+            if (digit == 0 && check) continue;
+            check = false;
+            temp.value = digit + temp.value;
+        }
+
+        return temp;
+
+    }
+
+
+
+    public static void main(String[] args) {
+        // Create AInteger instances
+        AInteger num1 = new AInteger("-22234235346745765869698786856745745643");
+        AInteger num2 = new AInteger("22234235346745765869698786856745745643");
+
+        // Add two large numbers
+        AInteger sum = num1.add(num2);
+        System.out.println("Sum: " + sum.getValue());
+
+        // Subtract two large numbers
+        AInteger diff = num1.subtract(num2);
+        System.out.println("Difference: " + diff.getValue());
+
+        //Multiply two large numbers
+        AInteger prod = num1.multiply(num2);
+        System.out.println("Product: " + prod.getValue());
+    }
+
+
+}
