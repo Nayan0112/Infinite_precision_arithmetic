@@ -182,7 +182,7 @@ public class AInteger {
     public static void main(String[] args) {
         // Create AInteger instances
         AInteger num1 = new AInteger("0000022234235346745765869698786856745745643");
-        AInteger num2 = new AInteger("00000000001");
+        AInteger num2 = new AInteger("00001000001");
 
         // Add two large numbers
         AInteger sum = num1.add(num2);
