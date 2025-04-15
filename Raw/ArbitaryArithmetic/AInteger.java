@@ -58,6 +58,12 @@ public class AInteger {
             if(len1 == len2){
                 int t1 = this.value.charAt(0);
                 int t2 = other.value.charAt(0);
+                int i = 0, j = 0;
+
+                while(t1 == t2){
+                    t1 = this.value.charAt(++i);
+                    t2 = other.value.charAt(++j);
+                }
 
                 if(t1 < t2){
                     String result = subtractStrings(other.value, this.value);
@@ -181,8 +187,8 @@ public class AInteger {
 
     public static void main(String[] args) {
         // Create AInteger instances
-        AInteger num1 = new AInteger("0000022234235346745765869698786856745745643");
-        AInteger num2 = new AInteger("00001000001");
+        AInteger num1 = new AInteger("2222222223");
+        AInteger num2 = new AInteger("2222222222");
 
         // Add two large numbers
         AInteger sum = num1.add(num2);
