@@ -27,7 +27,7 @@ public class AInteger {
         return new AInteger(s);
     }
 
-    private String truncate(String str) {
+    public String truncate(String str) {
         while (str.length() > 1 && str.charAt(0) == '0') {
             str = str.substring(1);
         }
@@ -181,8 +181,8 @@ public class AInteger {
 
     public static void main(String[] args) {
         // Create AInteger instances
-        AInteger num1 = new AInteger("22234235346745765869698786856745745643");
-        AInteger num2 = new AInteger("0");
+        AInteger num1 = new AInteger("0000022234235346745765869698786856745745643");
+        AInteger num2 = new AInteger("00000000001");
 
         // Add two large numbers
         AInteger sum = num1.add(num2);
