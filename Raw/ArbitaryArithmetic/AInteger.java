@@ -35,6 +35,10 @@ public class AInteger {
     }
 
     public Boolean compareString(String s1, String s2){
+
+        s1 = truncate(s1);
+        s2 = truncate(s2);
+
         int len1 = s1.length();
         int len2 = s2.length();
     
@@ -198,10 +202,10 @@ public class AInteger {
         other.isNegative = false;
     
         String num1 = this.value;
-        String num2 = other.value;
+        //String num2 = other.value;
         String result = "";
         AInteger remainder = new AInteger("0");
-        int size = num2.length();
+        //int size = num2.length();
 
         for (int j = 0; j < num1.length(); j++) {
             remainder = new AInteger(remainder.getValue() + num1.charAt(j)); 
@@ -232,8 +236,8 @@ public class AInteger {
     //testing RAW
     public static void main(String[] args) {
         // Create AInteger instances
-        AInteger num1 = new AInteger("54545454");
-        AInteger num2 = new AInteger("272");
+        AInteger num1 = new AInteger("6969696966969");
+        AInteger num2 = new AInteger("69");
 
         // Add two large numbers
         AInteger sum = num1.add(num2);

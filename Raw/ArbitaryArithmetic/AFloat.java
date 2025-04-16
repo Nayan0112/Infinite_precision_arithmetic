@@ -1,0 +1,273 @@
+class AFloat{
+    Boolean isNegative;
+    String integer;
+    String fractional;
+
+    public AFloat(){
+        this.isNegative = false;
+        this.integer = "0";
+        this.fractional = "0";
+    }
+
+    public AFloat(String s) {
+        if (s.charAt(0) == '-') {
+            this.isNegative = true;
+            s = s.substring(1);
+        } else {
+            this.isNegative = false;
+        }
+    
+        if (s.contains(".")) {
+            String[] parts = s.split("\\.");
+            this.integer = parts[0];
+            this.fractional = parts.length > 1 ? parts[1] : "0";
+        } else {
+            this.integer = s;
+            this.fractional = "0";
+        }
+    }
+
+    public static AFloat parse(String s){
+        return new AFloat(s);
+    }
+
+    public String getValue(){
+        this.integer = truncate(this.integer);
+        this.fractional = trim(fractional);
+        return ((this.isNegative ? "-" : "") + this.integer + "." + this.fractional);
+    }
+
+    public String truncate(String str) {
+        while (str.length() > 1 && str.charAt(0) == '0') {
+            str = str.substring(1);
+        }
+        return str;
+    }
+
+    public String trim(String str) {
+        int i = str.length() - 1;
+
+        if (str.isEmpty() || str.replace("0", "").isEmpty()) {
+            return "0"; 
+        }
+
+        while (i >= 0 && str.charAt(i) == '0') {
+            i--;
+        }
+        if (i < 0) {
+            return "0";
+        }
+        return str.substring(0, i + 1);
+    }
+    
+
+    public Boolean compareString(String s1, String s2){
+
+        s1 = truncate(s1);
+        s2 = truncate(s2);
+
+        int len1 = s1.length();
+        int len2 = s2.length();
+    
+        if(len1 == len2){
+            int i = 0;
+            while(i < len1 && s1.charAt(i) == s2.charAt(i)){
+                i++;
+            }
+            if (i == len1) return true;  
+            return s1.charAt(i) > s2.charAt(i); 
+        }else if(len1 < len2){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public String[] equalizeFractionLengths(String f1, String f2) {
+        int len1 = f1.length();
+        int len2 = f2.length();
+    
+        if (len1 < len2) {
+            f1 += "0".repeat(len2 - len1);
+        } else if (len2 < len1) {
+            f2 += "0".repeat(len1 - len2);
+        }
+    
+        return new String[]{f1, f2};
+    }    
+
+    public String addStrings(String num1, String num2) {
+        String result = "";
+        int len1 = num1.length();
+        int len2 = num2.length();
+
+        int carry = 0;
+        int i = len1 - 1, j = len2 - 1;
+
+        while (i >= 0 || j >= 0 || carry != 0) {
+            int digit1 = i >= 0 ? num1.charAt(i) - '0' : 0;
+            int digit2 = j >= 0 ? num2.charAt(j) - '0' : 0;
+            int sum = digit1 + digit2 + carry;
+            result = String.valueOf(sum % 10) + result;
+            carry = sum / 10;
+            i--;
+            j--;
+        }
+        
+        return result;
+    }
+
+    public String subtractStrings(String num1, String num2) {
+        String result = "";
+        int len1 = num1.length();
+        int len2 = num2.length();
+        int borrow = 0;
+        int i = len1 - 1, j = len2 - 1;
+
+        while (i >= 0 || j >= 0) {
+            int digit1 = i >= 0 ? num1.charAt(i) - '0' : 0;
+            int digit2 = j >= 0 ? num2.charAt(j) - '0' : 0;
+            int diff = digit1 - digit2 - borrow;
+            if (diff < 0) {
+                diff += 10;
+                borrow = 1;
+            } else {
+                borrow = 0;
+            }
+            result = String.valueOf(diff) + result ;
+            i--;
+            j--;
+        }
+
+        return result;
+    }
+
+    public AFloat add(AFloat other){
+        if(this.isNegative == other.isNegative){
+            String intg = addStrings(this.integer, other.integer);
+            String[] f = equalizeFractionLengths(this.fractional, other.fractional);
+            String frac = addStrings(f[0], f[1]);
+            if(frac.length() > Math.max(this.fractional.length(), other.fractional.length())) intg = addStrings(intg, "1");
+    
+            return new AFloat((this.isNegative ? "-" : "") + intg + "." + frac);
+        }else{
+            AFloat temp = new AFloat(other.integer + "." + other.fractional);
+            temp.isNegative = !other.isNegative;
+            return this.subtract(temp);
+        }
+    }
+
+    public AFloat subtract(AFloat other){
+        if(this.isNegative == other.isNegative){
+            if(compareString(this.integer, other.integer)){
+                String intg = subtractStrings(this.integer, other.integer);
+                String frac;
+                if(compareString(this.fractional, other.fractional)){
+                    String[] f = equalizeFractionLengths(this.fractional, other.fractional);
+                    frac = subtractStrings(f[0], f[1]);
+                }else{
+                    String[] f = equalizeFractionLengths(this.fractional, other.fractional);
+                    frac = subtractStrings(f[0], f[1]);
+                    intg = subtractStrings(intg, "1");
+                }
+
+                return new AFloat((this.isNegative ? "-" : "") + intg + "." + frac);
+
+            }else{
+
+                String intg = subtractStrings(other.integer, this.integer);
+                String frac;
+                if(compareString(this.fractional, other.fractional)){
+                    frac = subtractStrings(this.fractional, other.fractional);
+                }else{
+                    frac = subtractStrings(this.fractional, other.fractional);
+                    intg = subtractStrings(intg, "1");
+                }
+
+                return new AFloat((this.isNegative ? "" : "-") + intg + "." + frac);
+
+            }
+        }else{
+            AFloat temp = new AFloat(other.integer + "." + other.fractional);
+            temp.isNegative = !other.isNegative;
+            return this.add(temp);
+        }
+    }
+
+    public AFloat multiply(AFloat other){
+
+        AFloat temp = new AFloat();
+
+        String num1 = truncate(this.integer) + trim(this.fractional);
+        String num2 = truncate(other.integer) + trim(other.fractional);
+
+          if (num1.equals("00") || num2.equals("00")) {
+            temp.integer = "0";
+            temp.fractional = "0";
+            temp.isNegative = false;
+            return temp;
+        }
+
+        if(this.isNegative == other.isNegative){
+            temp.isNegative = false;
+        }else{
+            temp.isNegative = true;
+        }
+
+        int len1 = num1.length();
+        int len2 = num2.length();
+        int[] result = new int[len1 + len2];
+    
+    
+        for (int i = len1 - 1; i >= 0; i--) {
+            for (int j = len2 - 1; j >= 0; j--) {
+                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+                int sum = mul + result[i + j + 1];
+    
+                result[i + j + 1] = sum % 10;
+                result[i + j] += sum / 10;
+            }
+        }
+
+        String acc = "";
+
+        boolean check = true;
+
+        for(int digit : result){
+            if (digit == 0 && check) continue;
+            check = false;
+            acc = acc + digit;
+        }
+
+        while (acc.length() <= this.fractional.length() + other.fractional.length()) {
+            acc = "0" + acc;
+        }
+
+        int index = acc.length() - (this.fractional).length() - (other.fractional).length();
+        temp.integer = acc.substring(0, index);
+        temp.fractional = acc.substring(index, acc.length());
+
+        return temp;
+    }
+
+    public static void main(String[] args) {
+        AFloat f1 = new AFloat("00000000000000000123.4560000000000000");
+        AFloat f2 = new AFloat("-0000000000000.00001000000000");
+
+        System.out.println("f1 = " + f1.getValue());
+        System.out.println("f2 = " + f2.getValue());
+
+        AFloat sum = f1.add(f2);
+        System.out.println("Sum: " + sum.getValue());
+
+        AFloat diff = f1.subtract(f2);
+        System.out.println("Difference: " + diff.getValue());
+
+        AFloat prod = f1.multiply(f2);
+        System.out.println("Product: " + prod.getValue());
+
+        // AFloat quot = f1.divide(f2);
+        // System.out.println("Quotient: " + quot.getValue());
+    }
+    
+}
