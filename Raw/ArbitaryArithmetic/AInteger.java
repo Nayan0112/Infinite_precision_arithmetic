@@ -202,31 +202,23 @@ public class AInteger {
         String result = "";
         AInteger remainder = new AInteger("0");
         int size = num2.length();
-    
-        int j = 0;
-        while ((j * size) < num1.length()) {
-            int start = j * size;
-            int end = (j + 1) * size;
 
-            if(end > num1.length()) end = num1.length();
+        for (int j = 0; j < num1.length(); j++) {
+            remainder = new AInteger(remainder.getValue() + num1.charAt(j)); 
     
-            String current = remainder.getValue() + num1.substring(start, end);
-            AInteger currentA = new AInteger(current);
+            AInteger i = new AInteger("0");
+            AInteger acc = new AInteger("0");
     
-            AInteger i = new AInteger("1");
-            AInteger acc = other.multiply(i);
-    
-            while (compareString(currentA.getValue(), acc.getValue())) {
+            while (compareString(remainder.getValue(), acc.getValue())) {
                 i = i.add(new AInteger("1"));
                 acc = other.multiply(i);
             }
     
             i = i.subtract(new AInteger("1"));
             acc = other.multiply(i);
-            remainder = currentA.subtract(acc);
+            remainder = remainder.subtract(acc);
     
             result += i.getValue();
-            j++;
         }
     
         other.isNegative = true;
@@ -240,8 +232,8 @@ public class AInteger {
     //testing RAW
     public static void main(String[] args) {
         // Create AInteger instances
-        AInteger num1 = new AInteger("2222222221");
-        AInteger num2 = new AInteger("-10000000000000000");
+        AInteger num1 = new AInteger("54545454");
+        AInteger num2 = new AInteger("272");
 
         // Add two large numbers
         AInteger sum = num1.add(num2);
