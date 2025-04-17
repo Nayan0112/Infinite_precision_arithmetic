@@ -1,3 +1,6 @@
+package ArbitaryArithmetic;
+
+
 public class AInteger {
 
     public String value;
@@ -9,6 +12,11 @@ public class AInteger {
     }
 
     public AInteger(String s){
+
+        if (!s.matches("[+-]?\\d+")) {
+            throw new IllegalArgumentException("Invalid AInteger input: " + s);
+        }
+
         if (s.charAt(0) == '-') {
             this.isNegative = true;
             this.value = s.substring(1);

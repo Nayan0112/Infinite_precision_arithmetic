@@ -1,4 +1,7 @@
-class AFloat{
+package ArbitaryArithmetic;
+import ArbitaryArithmetic.AInteger;
+
+public class AFloat{
     Boolean isNegative;
     String integer;
     String fractional;
@@ -10,6 +13,11 @@ class AFloat{
     }
 
     public AFloat(String s) {
+
+        if (!s.matches("[+-]?\\d+(\\.\\d+)?")) {
+            throw new IllegalArgumentException("Invalid AFloat input: " + s);
+        }
+
         if (s.charAt(0) == '-') {
             this.isNegative = true;
             s = s.substring(1);
