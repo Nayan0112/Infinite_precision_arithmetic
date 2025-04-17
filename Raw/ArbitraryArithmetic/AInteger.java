@@ -1,4 +1,4 @@
-package ArbitaryArithmetic;
+package ArbitraryArithmetic;
 
 
 public class AInteger {

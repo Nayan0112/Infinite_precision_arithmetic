@@ -1,5 +1,5 @@
-package ArbitaryArithmetic;
-import ArbitaryArithmetic.AInteger;
+package ArbitraryArithmetic;
+import ArbitraryArithmetic.AInteger;
 
 public class AFloat{
     Boolean isNegative;
