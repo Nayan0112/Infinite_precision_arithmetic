@@ -315,24 +315,24 @@ public class AFloat{
     
     
 
-    public static void main(String[] args) {
-        AFloat f1 = new AFloat("1");
-        AFloat f2 = new AFloat("3");
+    // public static void main(String[] args) {
+    //     AFloat f1 = new AFloat("1");
+    //     AFloat f2 = new AFloat("3");
 
-        System.out.println("f1 = " + f1.getValue());
-        System.out.println("f2 = " + f2.getValue());
+    //     System.out.println("f1 = " + f1.getValue());
+    //     System.out.println("f2 = " + f2.getValue());
 
-        AFloat sum = f1.add(f2);
-        System.out.println("Sum: " + sum.getValue());
+    //     AFloat sum = f1.add(f2);
+    //     System.out.println("Sum: " + sum.getValue());
 
-        AFloat diff = f1.subtract(f2);
-        System.out.println("Difference: " + diff.getValue());
+    //     AFloat diff = f1.subtract(f2);
+    //     System.out.println("Difference: " + diff.getValue());
 
-        AFloat prod = f1.multiply(f2);
-        System.out.println("Product: " + prod.getValue());
+    //     AFloat prod = f1.multiply(f2);
+    //     System.out.println("Product: " + prod.getValue());
 
-        AFloat quot = f1.divide(f2);
-        System.out.println("Quotient: " + quot.getValue());
-    }
+    //     AFloat quot = f1.divide(f2);
+    //     System.out.println("Quotient: " + quot.getValue());
+    // }
     
 }

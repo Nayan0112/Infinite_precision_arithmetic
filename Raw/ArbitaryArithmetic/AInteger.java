@@ -241,28 +241,28 @@ public class AInteger {
     
 
 
-    //testing RAW
-    public static void main(String[] args) {
-        // Create AInteger instances
-        AInteger num1 = new AInteger("6969696966969");
-        AInteger num2 = new AInteger("69");
+    // //testing RAW
+    // public static void main(String[] args) {
+    //     // Create AInteger instances
+    //     AInteger num1 = new AInteger("6969696966969");
+    //     AInteger num2 = new AInteger("69");
 
-        // Add two large numbers
-        AInteger sum = num1.add(num2);
-        System.out.println("Sum: " + sum.getValue());
+    //     // Add two large numbers
+    //     AInteger sum = num1.add(num2);
+    //     System.out.println("Sum: " + sum.getValue());
 
-        // Subtract two large numbers
-        AInteger diff = num1.subtract(num2);
-        System.out.println("Difference: " + diff.getValue());
+    //     // Subtract two large numbers
+    //     AInteger diff = num1.subtract(num2);
+    //     System.out.println("Difference: " + diff.getValue());
 
-        //Multiply two large numbers
-        AInteger prod = num1.multiply(num2);
-        System.out.println("Product: " + prod.getValue());
+    //     //Multiply two large numbers
+    //     AInteger prod = num1.multiply(num2);
+    //     System.out.println("Product: " + prod.getValue());
 
-        //Divide two large numbers
-        AInteger quo = num1.divide(num2);
-        System.out.println("Quotent: " + quo.getValue());
-    }
+    //     //Divide two large numbers
+    //     AInteger quo = num1.divide(num2);
+    //     System.out.println("Quotent: " + quo.getValue());
+    // }
 
 
 }
