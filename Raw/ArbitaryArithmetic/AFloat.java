@@ -250,9 +250,66 @@ class AFloat{
         return temp;
     }
 
+    public AFloat divide(AFloat other) {
+        if (this.integer.equals("0") && this.fractional.equals("0")) {
+            return new AFloat("0");
+        }
+        if (other.integer.equals("0") && other.fractional.equals("0")) {
+            throw new ArithmeticException("Division by zero");
+        }
+    
+        String num1 = this.integer + this.fractional;
+        String num2 = other.integer + other.fractional;
+    
+        num1 += "0".repeat(1000);
+    
+        AInteger numerator = new AInteger(num1);
+        AInteger denominator = new AInteger(num2);
+        AInteger remainder = new AInteger("0");
+    
+        String quo = "";
+
+        String digits = numerator.getValue();
+        for (int j = 0; j < digits.length(); j++) {
+            remainder = new AInteger(remainder.getValue() + digits.charAt(j));
+    
+            AInteger i = new AInteger("0");
+            AInteger acc = new AInteger("0");
+    
+            while (remainder.compareString(remainder.getValue(), acc.getValue())) {
+                i = i.add(new AInteger("1"));
+                acc = denominator.multiply(i);
+            }
+    
+            i = i.subtract(new AInteger("1"));
+            acc = denominator.multiply(i);
+            remainder = remainder.subtract(acc);
+    
+            quo += i.getValue();
+        }
+    
+        int totalDecimalPlaces = this.fractional.length() + 1000 - other.fractional.length();
+    
+        while (quo.length() <= totalDecimalPlaces) {
+            quo = "0" + quo;
+        }
+    
+        String intg = quo.substring(0, quo.length() - totalDecimalPlaces);
+        String frac = quo.substring(quo.length() - totalDecimalPlaces);
+
+        AFloat result = new AFloat();
+        result.integer = result.truncate(intg);
+        result.fractional = result.trim(frac);
+        result.isNegative = (this.isNegative != other.isNegative) && !result.integer.equals("0") && !result.fractional.equals("0");
+    
+        return result;
+    }
+    
+    
+
     public static void main(String[] args) {
-        AFloat f1 = new AFloat("00000000000000000123.4560000000000000");
-        AFloat f2 = new AFloat("-0000000000000.00001000000000");
+        AFloat f1 = new AFloat("1");
+        AFloat f2 = new AFloat("3");
 
         System.out.println("f1 = " + f1.getValue());
         System.out.println("f2 = " + f2.getValue());
@@ -266,8 +323,8 @@ class AFloat{
         AFloat prod = f1.multiply(f2);
         System.out.println("Product: " + prod.getValue());
 
-        // AFloat quot = f1.divide(f2);
-        // System.out.println("Quotient: " + quot.getValue());
+        AFloat quot = f1.divide(f2);
+        System.out.println("Quotient: " + quot.getValue());
     }
     
 }
