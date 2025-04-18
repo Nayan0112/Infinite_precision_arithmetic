@@ -1,4 +1,4 @@
-package ArbitraryArithmetic;
+// package ArbitraryArithmetic;
 
 
 public class AInteger {
@@ -13,7 +13,7 @@ public class AInteger {
 
     public AInteger(String s){
 
-        if (!s.matches("[+-]?\\d+")) {
+        if (!s.matches("[+-]?\\d*")) {
             throw new IllegalArgumentException("Invalid AInteger input: " + s);
         }
 

@@ -1,5 +1,5 @@
-package ArbitraryArithmetic;
-import ArbitraryArithmetic.AInteger;
+// package ArbitraryArithmetic;
+// import ArbitraryArithmetic.AInteger;
 
 public class AFloat{
     Boolean isNegative;
@@ -14,7 +14,7 @@ public class AFloat{
 
     public AFloat(String s) {
 
-        if (!s.matches("[+-]?\\d+(\\.\\d+)?")) {
+        if (!s.matches("[+-]?\\d+(\\.\\d*)?")) {
             throw new IllegalArgumentException("Invalid AFloat input: " + s);
         }
 
@@ -33,6 +33,8 @@ public class AFloat{
             this.integer = s;
             this.fractional = "0";
         }
+        this.integer = truncate(this.integer);
+        this.fractional = trim(this.fractional);
     }
 
     public static AFloat parse(String s){
@@ -155,7 +157,10 @@ public class AFloat{
             String intg = addStrings(this.integer, other.integer);
             String[] f = equalizeFractionLengths(this.fractional, other.fractional);
             String frac = addStrings(f[0], f[1]);
-            if(frac.length() > Math.max(this.fractional.length(), other.fractional.length())) intg = addStrings(intg, "1");
+            if(frac.length() > Math.max(this.fractional.length(), other.fractional.length())){
+                intg = addStrings(intg, "1");
+                frac = frac.substring(1);
+            } 
     
             return new AFloat((this.isNegative ? "-" : "") + intg + "." + frac);
         }else{
@@ -170,13 +175,18 @@ public class AFloat{
             if(compareString(this.integer, other.integer)){
                 String intg = subtractStrings(this.integer, other.integer);
                 String frac;
-                if(compareString(this.fractional, other.fractional)){
-                    String[] f = equalizeFractionLengths(this.fractional, other.fractional);
+                String[] f = equalizeFractionLengths(this.fractional, other.fractional);
+                if(compareString(this.fractional, other.fractional)){  
                     frac = subtractStrings(f[0], f[1]);
                 }else{
-                    String[] f = equalizeFractionLengths(this.fractional, other.fractional);
-                    frac = subtractStrings(f[0], f[1]);
-                    intg = subtractStrings(intg, "1");
+                    if(!intg.equals("0")){
+                        frac = subtractStrings(f[0], f[1]);
+                        intg = subtractStrings(intg, "1");
+                    }else{
+                        frac = subtractStrings(f[1], f[0]);
+                        return new AFloat((this.isNegative ? "" : "-") + intg + "." + frac);
+                    }
+
                 }
 
                 return new AFloat((this.isNegative ? "-" : "") + intg + "." + frac);
@@ -185,11 +195,13 @@ public class AFloat{
 
                 String intg = subtractStrings(other.integer, this.integer);
                 String frac;
+                String[] f = equalizeFractionLengths(this.fractional, other.fractional);
                 if(compareString(this.fractional, other.fractional)){
-                    frac = subtractStrings(this.fractional, other.fractional);
+                    frac = subtractStrings(f[1], f[0]);
+                    if(!frac.equals("0"))
+                        intg = subtractStrings(intg, "1");
                 }else{
-                    frac = subtractStrings(this.fractional, other.fractional);
-                    intg = subtractStrings(intg, "1");
+                    frac = subtractStrings(f[1], f[0]);
                 }
 
                 return new AFloat((this.isNegative ? "" : "-") + intg + "." + frac);
@@ -308,31 +320,18 @@ public class AFloat{
         AFloat result = new AFloat();
         result.integer = result.truncate(intg);
         result.fractional = result.trim(frac);
-        result.isNegative = (this.isNegative != other.isNegative) && !result.integer.equals("0") && !result.fractional.equals("0");
+        result.isNegative = (this.isNegative != other.isNegative);
     
         return result;
     }
     
     
 
-    // public static void main(String[] args) {
-    //     AFloat f1 = new AFloat("1");
-    //     AFloat f2 = new AFloat("3");
-
-    //     System.out.println("f1 = " + f1.getValue());
-    //     System.out.println("f2 = " + f2.getValue());
-
-    //     AFloat sum = f1.add(f2);
-    //     System.out.println("Sum: " + sum.getValue());
-
-    //     AFloat diff = f1.subtract(f2);
-    //     System.out.println("Difference: " + diff.getValue());
-
-    //     AFloat prod = f1.multiply(f2);
-    //     System.out.println("Product: " + prod.getValue());
-
-    //     AFloat quot = f1.divide(f2);
-    //     System.out.println("Quotient: " + quot.getValue());
-    // }
+    public static void main(String[] args) {
+        System.out.println(new AFloat("9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999.999999999").add(new AFloat("0.000000000000000000000000000000000000000000000000000000000000000000000001")).getValue()); // Large + tiny
+        System.out.println(new AFloat("1000000000000000").multiply(new AFloat("0.000000000001")).getValue());     // Test rounding
+        
+        
+    }
     
 }
