@@ -1,5 +1,5 @@
-import ArbitraryArithmetic.AFloat;
-import ArbitraryArithmetic.AInteger;
+package myinfarith;
+import arbitraryarithmetic.*;
 
 public class MyInfArith {
     public static void main(String[] args) {
