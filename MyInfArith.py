@@ -21,17 +21,16 @@ def run_maven_install():
     return 1
 
 def main():
-        run_maven_install()
-        arg1 = input("Pls enter the data type : <int/float> :\n")
-        arg2 = input("Pls enter the operation : <add/sub/div/mul> :\n")
-        arg3 = input("Pls enter the number1 : \n")
-        arg4 = input("Pls enter the number2 : \n")
-        A = MyInfArith(arg1)
+    while True :
+        #run_maven_install()
+        lst = []
+        lst = input("Arguments : ").split(" ")
+        A = MyInfArith(lst[0])
         A.compile()
 
         print("\nOutput :")
 
-        A.run(arg2, arg3, arg4)
+        A.run(lst[1], lst[2], lst[3])
 
 if __name__ == "__main__":
     main()

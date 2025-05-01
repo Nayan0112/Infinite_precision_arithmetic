@@ -66,8 +66,6 @@ The library includes custom exceptions to handle errors during arithmetic operat
     \item \texttt{InvalidInputException}: This exception is thrown for unsupported or invalid operations. For example, attempting to perform arithmetic with non-numeric input or unsupported operations would trigger this exception.
 \end{itemize}
 
-Custom exception handling ensures that errors are caught early and handled appropriately, providing better feedback to the user and maintaining the integrity of the calculations.
-
 \section{Implementation Details}
 
 \subsection{AInteger Class}
@@ -83,16 +81,16 @@ The \texttt{AFloat} class handles floating-point numbers, which are represented 
 \begin{itemize}
     \item \textbf{Addition/Subtraction/Multiplication/Division}: These operations are implemented by first aligning the decimal points of both numbers and then performing the operation on the integer and fractional parts separately.
     \item \textbf{Precision Handling}: The class maintains high precision, ensuring that operations on floating-point numbers remain accurate to a specified number of decimal places.
-    \item \textbf{Rounding and Conversion}: The class includes methods to round results to a desired precision and to convert numbers between scientific and decimal notation.
+    \item \textbf{Rounding and Conversion}: The program calculates at a precision of 1000 then truncated/trimmed to 30 units
 \end{itemize}
 
 \subsection{Command-Line Interface (CLI)}
-A simple CLI is provided through the \texttt{MyInfArith} class. The CLI allows users to interact with the library by entering numbers and selecting operations from the terminal. The user can perform basic arithmetic operations, view results, and handle errors via exception messages.
+A simple CLI is provided through the \texttt{MyInfArith} class. The CLI allows users to interact with the library by entering numbers and selecting operations from the terminal.
 
 \section{Testing and Verification}
 
-\subsection{Unit Tests}
-Unit tests were created using JUnit to verify the correctness of each method in the library. The tests ensure that:
+\subsection{Tests}
+Extensive manual tests were performed including the public tests cases provided,
 \begin{itemize}
     \item Arithmetic operations like addition, subtraction, multiplication, and division work correctly.
     \item Edge cases, such as division by zero, negative numbers, and very large numbers, are handled appropriately.
@@ -101,7 +99,6 @@ Unit tests were created using JUnit to verify the correctness of each method in 
 
 \section{Limitations}
 
-\subsection{Limitations}
 The current implementation has a few limitations:
 \begin{itemize}
     \item \textbf{Performance}: Due to the use of string manipulation, the library may experience slower performance for very large numbers compared to native types. Optimizing performance could be a focus for future versions.

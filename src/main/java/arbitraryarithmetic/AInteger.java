@@ -16,7 +16,7 @@ public class AInteger {
         for(int i = 0; i < s.length(); i++){
             if(countSign > 1) throw new IllegalArgumentException("Invalid Input");
             if((s.charAt(0) == '+' || s.charAt(0) == '-')) { countSign ++; continue;}
-            if((s.charAt(i) == '+' || s.charAt(i) == '-')) { countSign ++; continue;}
+            if(i != 0 && (s.charAt(i) == '+' || s.charAt(i) == '-')) { throw new IllegalArgumentException("Invalid Input");}
             if(!Character.isDigit(s.charAt(i))) throw new IllegalArgumentException("Invalid Input");
         }
 

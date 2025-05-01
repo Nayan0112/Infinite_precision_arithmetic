@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1746127586.64177 "/home/nayan-modak/Documents/GITHUB/Infinite_precision_arithmetic/report_raw/report.tex" "report.pdf" "report" 1746127587.2377 0
+["pdflatex"] 1746130048.22286 "/home/nayan-modak/Documents/GITHUB/Infinite_precision_arithmetic/report_raw/report.tex" "report.pdf" "report" 1746130048.83285 0
   "/etc/texmf/web2c/texmf.cnf" 1743054505.31982 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/nayan-modak/Documents/GITHUB/Infinite_precision_arithmetic/report_raw/report.tex" 1746127585.80424 10242 b45522c561fa0952d91ed684a3379698 ""
+  "/home/nayan-modak/Documents/GITHUB/Infinite_precision_arithmetic/report_raw/report.tex" 1746130047.21486 9841 76c4ba21168eb8aec632dc9d6efa3409 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -33,9 +33,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1744627492.64144 5472523 3385632d03104648b518c8e4afd7264e ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1743057924 8212839 f0d39f46daa63f5ab5e533faa6185a3b ""
-  "report.aux" 1746127587.18831 1855 366dba0abe741caa5cc6e1db9bcfc861 "pdflatex"
-  "report.tex" 1746127585.80424 10242 b45522c561fa0952d91ed684a3379698 ""
-  "report.toc" 1746127587.18931 1126 cf086090f2975adf4b8c9509db886226 "pdflatex"
+  "report.aux" 1746130048.78486 1746 0c6ce4a919087c62f4af248311d697c3 "pdflatex"
+  "report.tex" 1746130047.21486 9841 76c4ba21168eb8aec632dc9d6efa3409 ""
+  "report.toc" 1746130048.78586 1058 eb6a8f7cb8497aac685d861dde960acf "pdflatex"
   (generated)
   "report.aux"
   "report.log"

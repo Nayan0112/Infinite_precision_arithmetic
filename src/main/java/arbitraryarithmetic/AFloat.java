@@ -15,14 +15,25 @@ public class AFloat{
     public AFloat(String s) {
         int countSign = 0;
         int countDec = 0;
-        for(int i = 0; i < s.length(); i++){
-            if(countSign > 1 || countDec > 1) throw new IllegalArgumentException("Invalid Input");
-            if((s.charAt(0) == '+' || s.charAt(0) == '-')) { countSign ++; continue;}
-            if((s.charAt(i) == '+' || s.charAt(i) == '-')) { countSign ++; continue;}
-            if(s.charAt(i) == '.') { countDec ++; continue; }
-            if(!Character.isDigit(s.charAt(i))) throw new IllegalArgumentException("Invalid Input");
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (i == 0 && (c == '+' || c == '-')) {
+                countSign++;
+                continue;
+            }
+            if (c == '+' || c == '-') {
+                throw new IllegalArgumentException("Invalid Input");
+            }
+            if (c == '.') {
+                countDec++;
+                if (countDec > 1) throw new IllegalArgumentException("Invalid Input");
+                continue;
+            }
+            if (!Character.isDigit(c)) {
+                throw new IllegalArgumentException("Invalid Input");
+            }
         }
-
+        
         if (s.charAt(0) == '-') {
             this.isNegative = true;
             s = s.substring(1);
@@ -31,15 +42,16 @@ public class AFloat{
         }
     
         if (s.contains(".")) {
-            String[] parts = s.split("\\.");
-            this.integer = parts.length > 1? parts[0] : "0";
-            this.fractional = parts.length > 1 ? parts[1] : "0";
+            String[] parts = s.split("\\.", -1);
+            this.integer = parts.length > 1 ? parts[0] : "0";
+            this.fractional = parts.length > 1 && !parts[1].isEmpty() ? parts[1] : "0";
         } else {
             this.integer = s;
             this.fractional = "0";
         }
         this.integer = truncate(this.integer);
         this.fractional = trim(this.fractional);
+
     }
 
     public static AFloat parse(String s){
@@ -161,14 +173,13 @@ public class AFloat{
 
     public AFloat add(AFloat other){
         if(this.isNegative == other.isNegative){
-            String intg = addStrings(this.integer, other.integer);
             String[] f = equalizeFractionLengths(this.fractional, other.fractional);
-            String frac = addStrings(f[0], f[1]);
-            if(frac.length() > Math.max(this.fractional.length(), other.fractional.length())){
-                intg = addStrings(intg, "1");
-                frac = frac.substring(1);
-            } 
-    
+            int len = f[0].length();
+            String num1 = this.integer + f[0];
+            String num2 = other.integer + f[1];
+            String sum = addStrings(num1, num2);
+            String intg = sum.substring(0, sum.length() - len);
+            String frac = sum.substring(sum.length() - len, sum.length());
             return new AFloat((this.isNegative ? "-" : "") + intg + "." + frac);
         }else{
             AFloat temp = new AFloat(other.integer + "." + other.fractional);
@@ -177,42 +188,24 @@ public class AFloat{
         }
     }
 
+
+
     public AFloat subtract(AFloat other){
         if(this.isNegative == other.isNegative){
-            if(compareString(this.integer, other.integer)){
-                String intg = subtractStrings(this.integer, other.integer);
-                String frac;
-                String[] f = equalizeFractionLengths(this.fractional, other.fractional);
-                if(compareString(this.fractional, other.fractional)){  
-                    frac = subtractStrings(f[0], f[1]);
-                }else{
-                    if(!intg.equals("0")){
-                        frac = subtractStrings(f[0], f[1]);
-                        intg = subtractStrings(intg, "1");
-                    }else{
-                        frac = subtractStrings(f[1], f[0]);
-                        return new AFloat((this.isNegative ? "" : "-") + intg + "." + frac);
-                    }
-
-                }
-
+            String[] f = equalizeFractionLengths(this.fractional, other.fractional);
+            int len = f[0].length();
+            String num1 = this.integer + f[0];
+            String num2 = other.integer + f[1];
+            if(compareString(num1, num2)){
+                String diff = subtractStrings(num1, num2);
+                String intg = diff.substring(0, diff.length() - len);
+                String frac = diff.substring(diff.length() - len, diff.length());
                 return new AFloat((this.isNegative ? "-" : "") + intg + "." + frac);
-
             }else{
-
-                String intg = subtractStrings(other.integer, this.integer);
-                String frac;
-                String[] f = equalizeFractionLengths(this.fractional, other.fractional);
-                if(compareString(this.fractional, other.fractional)){
-                    frac = subtractStrings(f[1], f[0]);
-                    if(!frac.equals("0"))
-                        intg = subtractStrings(intg, "1");
-                }else{
-                    frac = subtractStrings(f[1], f[0]);
-                }
-
+                String diff = subtractStrings(num2, num1);
+                String intg = diff.substring(0, diff.length() - len);
+                String frac = diff.substring(diff.length() - len, diff.length());
                 return new AFloat((this.isNegative ? "" : "-") + intg + "." + frac);
-
             }
         }else{
             AFloat temp = new AFloat(other.integer + "." + other.fractional);
