@@ -49,6 +49,7 @@ public class AFloat{
     public String getValue(){
         this.integer = truncate(this.integer);
         this.fractional = trim(fractional);
+        if(this.fractional.length() > 30) this.fractional = this.fractional.substring(0,30);
         if(this.integer.equals("0") && this.fractional.equals("0")) { this.isNegative = false; }
         return ((this.isNegative ? "-" : "") + this.integer + "." + this.fractional);
     }

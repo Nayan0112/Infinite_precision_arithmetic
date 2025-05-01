@@ -6,19 +6,7 @@
     <groupId>io.github.nayan0112</groupId>
     <artifactId>aarithmetic</artifactId>
     <version>1.3</version> 
-    <packaging>jar</packaging>   
-
-    <name>Arbitrary Precision Arithmetic</name>
-    <description>SDF_PROJECT_1.</description>
-    <url>https://github.com/Nayan0112/Infinite_precision_arithmetic</url>
-
-    <developers>
-        <developer>
-            <id>nayan0112</id>
-            <name>Nayan Modak</name>
-            <email>nayan.modak.2006@gmail.com</email>
-        </developer>
-    </developers>
+    <packaging>jar</packaging>  
 
     <build>
         <finalName>aarithmetic</finalName>

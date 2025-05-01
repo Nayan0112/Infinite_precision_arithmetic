@@ -16,12 +16,12 @@ class MyInfArith :
         os.system(f'java -cp .:{self.jar_path} myinfarith.MyInfArith {self.op} {operation} {x1} {x2}')
 
 
-def run_maven_compile():
+def run_maven_install():
     os.system("mvn clean install")
     return 1
 
 def main():
-    if run_maven_compile():
+        run_maven_install()
         arg1 = input("Pls enter the data type : <int/float> :\n")
         arg2 = input("Pls enter the operation : <add/sub/div/mul> :\n")
         arg3 = input("Pls enter the number1 : \n")

@@ -1,0 +1,123 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\geometry{a4paper}
+
+\title{Arbitrary Precision Arithmetic Library in Java}
+\author{Nayan Modak}
+\date{May 2, 2025}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+This report describes the development and design of an arbitrary-precision arithmetic library in Java, created for the Software Development Fundamentals (CS1023) course. The library features two main classes: \texttt{AInteger} and \texttt{AFloat}, which represent large integers and floating-point numbers, respectively. The goal of this library is to provide a simple and efficient solution for performing arithmetic operations on numbers of arbitrary size.
+\\ \textbf{The range of standard data types in java are :}
+\begin{itemize}
+    \item int : -2147483648 to 2147483648
+    \item long : -9223372036854775808 to 9223372036854775808
+    \item float : 1.40239846e-45 to 3.40282347e+38
+    \item double : 4.94065645841246544e-324 to 1.79769313486231570e+308 
+\end{itemize}
+\section{Project Objectives}
+The key objectives of this project are:
+\begin{itemize}
+    \item Implement an arbitrary-precision arithmetic library that handles large integers and floating-point numbers.
+    \item Provide basic arithmetic operations (addition, subtraction, multiplication, and division) for large numbers.
+    \item Ensure that calculations are performed with high precision, even for numbers that exceed the standard limits of Java's native types.
+    \item Implement custom exception handling for errors such as division by zero, invalid input, and arithmetic overflow.
+    \item Design the library with modularity in mind, using object-oriented principles to ensure maintainability and extensibility.
+    \item Provide a simple command-line interface (CLI) to interact with the library, allowing users to perform operations via a terminal.
+    \item Develop unit tests to verify the correctness of the operations and edge cases.
+\end{itemize}
+
+\section{Design Decisions}
+
+\subsection{Class Structure}
+The library consists of two main classes:
+\begin{itemize}
+    \item \texttt{AInteger}: This class handles the representation and operations for large integers. It allows for high-precision arithmetic on integer values without losing precision, even for extremely large numbers. The class contains two constructors isNegative of Boolean type which tracks the sign of the interger whereas other is String Vlaue which contains the value of the string.
+    \item \texttt{AFloat}: This class handles the representation and operations for floating-point numbers. It supports arbitrary precision for both the integer and fractional parts, ensuring that operations on floating-point numbers are accurate to the desired precision. Similar to AInteger isNegative is adopted along with Integral part and fraction part seperately.
+\end{itemize}
+
+Both classes use string-based representations to avoid the limitations of native Java numeric types. Java’s native types like \texttt{int} and \texttt{double} are limited in size and cannot handle extremely large numbers. By using strings, we can manipulate numbers digit by digit, ensuring that no precision is lost. 
+
+\subsection{String-Based Representation}
+The library uses strings to represent numbers, which allows for the handling of arbitrarily large numbers. Each number is stored as a string of digits, and arithmetic operations are implemented by processing each digit individually. This approach avoids the overflow issues inherent in fixed-precision data types like integers and floating-point numbers in Java.
+
+For example, the number \texttt{12345678901234567890} can be represented as a string and used directly in arithmetic operations, regardless of its size. This allows the library to handle numbers with thousands or even millions of digits.
+
+\subsection{Arithmetic Operations}
+The core operations supported by the library are:
+\begin{itemize}
+    \item \textbf{Addition/Subtraction}: These operations are implemented by simulating manual addition and subtraction, taking care of carries and borrows as necessary. The process involves iterating through each digit from right to left, adding or subtracting corresponding digits and adjusting for carries or borrows.
+    \item \textbf{Multiplication}: This operation is implemented using the standard long multiplication algorithm. Each digit of one number is multiplied by each digit of the other number, and the results are accumulated accordingly. This ensures that multiplication is performed accurately, even for very large numbers.
+    \item \textbf{Division}: The division operation is implemented using the long division algorithm. The dividend is divided by the divisor digit by digit, and the quotient and remainder are computed step by step. The division process ensures that the precision is maintained throughout the calculation.
+\end{itemize}
+
+\subsection{Exception Handling}
+The library includes custom exceptions to handle errors during arithmetic operations:
+\begin{itemize}
+    \item \texttt{DivisionByZeroException}: This exception is thrown when an attempt is made to divide by zero. Division by zero is undefined in arithmetic, so the library raises an exception to prevent such operations.
+    \item \texttt{InvalidInputException}: This exception is thrown for unsupported or invalid operations. For example, attempting to perform arithmetic with non-numeric input or unsupported operations would trigger this exception.
+\end{itemize}
+
+Custom exception handling ensures that errors are caught early and handled appropriately, providing better feedback to the user and maintaining the integrity of the calculations.
+
+\section{Implementation Details}
+
+\subsection{AInteger Class}
+The \texttt{AInteger} class provides methods for parsing, storing, and performing arithmetic on large integers. The class supports:
+\begin{itemize}
+    \item \textbf{Addition, Subtraction, and Multiplication}: The methods for these operations simulate manual calculation, ensuring that the operations are performed digit by digit.
+    \item \textbf{Division}: The division operation uses a step-by-step long division algorithm to divide the number by another, returning both the quotient and remainder.
+    \item \textbf{String-Based Representation}: The integer is stored as a string, allowing for manipulation of individual digits.
+\end{itemize}
+
+\subsection{AFloat Class}
+The \texttt{AFloat} class handles floating-point numbers, which are represented as strings with both an integer and a fractional part. The class supports:
+\begin{itemize}
+    \item \textbf{Addition/Subtraction/Multiplication/Division}: These operations are implemented by first aligning the decimal points of both numbers and then performing the operation on the integer and fractional parts separately.
+    \item \textbf{Precision Handling}: The class maintains high precision, ensuring that operations on floating-point numbers remain accurate to a specified number of decimal places.
+    \item \textbf{Rounding and Conversion}: The class includes methods to round results to a desired precision and to convert numbers between scientific and decimal notation.
+\end{itemize}
+
+\subsection{Command-Line Interface (CLI)}
+A simple CLI is provided through the \texttt{MyInfArith} class. The CLI allows users to interact with the library by entering numbers and selecting operations from the terminal. The user can perform basic arithmetic operations, view results, and handle errors via exception messages.
+
+\section{Testing and Verification}
+
+\subsection{Unit Tests}
+Unit tests were created using JUnit to verify the correctness of each method in the library. The tests ensure that:
+\begin{itemize}
+    \item Arithmetic operations like addition, subtraction, multiplication, and division work correctly.
+    \item Edge cases, such as division by zero, negative numbers, and very large numbers, are handled appropriately.
+    \item Floating-point precision is maintained across all operations, and rounding is performed correctly when necessary.
+\end{itemize}
+
+\section{Limitations}
+
+\subsection{Limitations}
+The current implementation has a few limitations:
+\begin{itemize}
+    \item \textbf{Performance}: Due to the use of string manipulation, the library may experience slower performance for very large numbers compared to native types. Optimizing performance could be a focus for future versions.
+    \item \textbf{Memory Usage}: Storing numbers as strings increases memory usage, especially for very large numbers. A more memory-efficient representation might be necessary for extremely large numbers.
+    \item \textbf{Limited Operations}: The library currently supports basic arithmetic operations. Future versions could include support for more advanced operations like exponentiation, logarithms, and trigonometric functions.
+\end{itemize}
+
+
+\section{Conclusion}
+The arbitrary-precision arithmetic library provides a robust solution for performing high-precision arithmetic operations on very large integers and floating-point numbers. Using string-based representations, the library ensures that precision is maintained even for large inputs. The implementation is thoroughly tested, and future improvements could optimize performance and add additional functionality.
+
+\section{Key Learnings}
+\begin{itemize}
+    \item \textbf{String-Based Arithmetic}: One of the key learnings from this project was the importance of using string-based representations for arbitrary-precision arithmetic. This approach allows for accurate calculations on numbers of any size, overcoming the limitations of native data types.
+    \item \textbf{Manual Arithmetic Simulation}: The implementation of manual algorithms for addition, subtraction, multiplication, and division was a valuable learning experience. It reinforced the importance of understanding the underlying mathematical operations and how to implement them at a low level.
+    \item \textbf{Performance Trade-offs}: Although the library provides high precision, I learned that string-based arithmetic can be slower and more memory-intensive than using native data types. Performance optimization remains an area for future improvement.
+\end{itemize}
+
+\end{document}
