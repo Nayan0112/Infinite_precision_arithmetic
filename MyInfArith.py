@@ -1,23 +1,5 @@
-import subprocess
+
 import os
-
-maven_project_path = "/home/nayan-modak/Documents/GITHUB/Infinite_precision_arithmetic"
-def run_maven_compile():
-    print("Compiling the project...")
-    result = subprocess.run(
-        ["mvn", "compile"], 
-        cwd=maven_project_path,  
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
-
-    if result.returncode == 0:
-        print("Compilation successful!")
-    else:
-        print(f"Compilation failed: {result.stderr.decode()}")
-        return False
-    return True
-
 
 class MyInfArith :
 
@@ -33,6 +15,10 @@ class MyInfArith :
     def run(self,operation,x1,x2):
         os.system(f'java -cp .:{self.jar_path} myinfarith.MyInfArith {self.op} {operation} {x1} {x2}')
 
+
+def run_maven_compile():
+    os.system("mvn clean install")
+    return 1
 
 def main():
     if run_maven_compile():

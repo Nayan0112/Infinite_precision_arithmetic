@@ -13,9 +13,14 @@ public class AFloat{
     }
 
     public AFloat(String s) {
-
-        if (!s.matches("[+-]?\\d+(\\.\\d*)?")) {
-            throw new IllegalArgumentException("Invalid AFloat input: " + s);
+        int countSign = 0;
+        int countDec = 0;
+        for(int i = 0; i < s.length(); i++){
+            if(countSign > 1 || countDec > 1) throw new IllegalArgumentException("Invalid Input");
+            if((s.charAt(0) == '+' || s.charAt(0) == '-')) { countSign ++; continue;}
+            if((s.charAt(i) == '+' || s.charAt(i) == '-')) { countSign ++; continue;}
+            if(s.charAt(i) == '.') { countDec ++; continue; }
+            if(!Character.isDigit(s.charAt(i))) throw new IllegalArgumentException("Invalid Input");
         }
 
         if (s.charAt(0) == '-') {
@@ -27,7 +32,7 @@ public class AFloat{
     
         if (s.contains(".")) {
             String[] parts = s.split("\\.");
-            this.integer = parts[0];
+            this.integer = parts.length > 1? parts[0] : "0";
             this.fractional = parts.length > 1 ? parts[1] : "0";
         } else {
             this.integer = s;
@@ -44,6 +49,7 @@ public class AFloat{
     public String getValue(){
         this.integer = truncate(this.integer);
         this.fractional = trim(fractional);
+        if(this.integer.equals("0") && this.fractional.equals("0")) { this.isNegative = false; }
         return ((this.isNegative ? "-" : "") + this.integer + "." + this.fractional);
     }
 

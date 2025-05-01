@@ -11,9 +11,13 @@ public class AInteger {
     }
 
     public AInteger(String s){
+        int countSign = 0;
 
-        if (!s.matches("[+-]?\\d*")) {
-            throw new IllegalArgumentException("Invalid AInteger input: " + s);
+        for(int i = 0; i < s.length(); i++){
+            if(countSign > 1) throw new IllegalArgumentException("Invalid Input");
+            if((s.charAt(0) == '+' || s.charAt(0) == '-')) { countSign ++; continue;}
+            if((s.charAt(i) == '+' || s.charAt(i) == '-')) { countSign ++; continue;}
+            if(!Character.isDigit(s.charAt(i))) throw new IllegalArgumentException("Invalid Input");
         }
 
         if (s.charAt(0) == '-') {
@@ -70,6 +74,7 @@ public class AInteger {
     
 
     public String getValue(){
+        if(truncate(this.value).equals("0")) { this.isNegative = false; }
         return ((this.isNegative ? "-" : "") + truncate(this.value));
     }
 
