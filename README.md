@@ -1,5 +1,4 @@
-
-# Infinite Precision Arithmetic
+## Infinite Precision Arithmetic
 
 This project implements arbitrary-precision arithmetic operations on integers and floating-point numbers. It supports basic mathematical operations such as addition, subtraction, multiplication, and division with infinite precision, allowing users to perform calculations on very large numbers.
 
@@ -28,34 +27,34 @@ This project implements arbitrary-precision arithmetic operations on integers an
 
     ```bash
     git clone https://github.com/your-username/Infinite_precision_arithmetic.git
-    cd Infinite_precision_arithmetic
-    ```
+    cd Infinite_precision_arithmetic```
+    
 
 2. Build the project with Maven:
 
     ```bash
-    mvn clean install
-    ```
+    mvn clean install```
+    
 
 3. Compile the Java files:
 
     ```bash
-    javac -cp .:/target/classes myinfarith/MyInfArith.java
-    ```
+    javac -cp .:/target/classes myinfarith/MyInfArith.java```
+    
 
 4. Run the program:
 
     ```bash
-    java -cp .:/target/classes myinfarith.MyInfArith <data type> <operation> <num1> <num2>
-    ```
+    java -cp .:/target/classes myinfarith.MyInfArith <data type> <operation> <num1> <num2> ```
+    
 
-    Example:
+5. Example:
     
     ```bash
-    java -cp .:/target/classes myinfarith.MyInfArith float add 10 5
+    java -cp .:/target/classes myinfarith.MyInfArith float add 10 
     ```
 
-    This will run the program with float data type and perform an addition operation on the numbers `10` and `5`.
+This will run the program with float data type and perform an addition operation on the numbers `10` and `5`.
 
 ### Option 2: Running With Docker
 
@@ -65,21 +64,21 @@ If you prefer to run the project in a Docker container, follow these steps:
 
     ```bash
     docker build -t deleteme0/myinfarith .
-    ```
+    
 
 2. Run the Docker container:
 
     ```bash
     docker run deleteme0/myinfarith <data type> <operation> <num1> <num2>
-    ```
+    
 
-    Example:
+3. Example:
 
     ```bash
     docker run deleteme0/myinfarith float div 10 0
-    ```
+    
 
-    This will attempt to divide `10` by `0` and should raise an exception.
+This will attempt to divide `10` by `0` and should raise an exception.
 
 ## Dockerfile Overview
 
@@ -98,21 +97,21 @@ The program accepts the following arguments:
 
 Example command-line input:
 
-```bash
+bash
 docker run deleteme0/myinfarith int add 10 20
-```
+
 
 ### Expected Output
 
 For the above example, the output will be:
 
-```bash
+bash
 30
-```
-## Run with python script :
 
-```bash 
-python3 MyInfArith.py```
+## Run with python script :
+1. Here, 
+    ```bash 
+    python3 MyInfArith.py
 
 The program expects input in the form of <DataType> <operation> <x> <y>
 and it runs in an infinite loop for testing purposes and can be exitted by pressing Ctrl + C
