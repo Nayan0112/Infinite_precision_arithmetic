@@ -5,12 +5,15 @@ public class AInteger {
     public String value;
     public Boolean isNegative;
 
+    //default constructor 
     public AInteger(){
         this.isNegative = false;
         this.value = "0";
     }
 
+    //constrctor when string is an input
     public AInteger(String s){
+        //Invalid input handling
         int countSign = 0;
 
         for(int i = 0; i < s.length(); i++){
@@ -20,6 +23,7 @@ public class AInteger {
             if(!Character.isDigit(s.charAt(i))) throw new IllegalArgumentException("Invalid Input");
         }
 
+        //assigning signs and values
         if (s.charAt(0) == '-') {
             this.isNegative = true;
             this.value = s.substring(1);
@@ -28,16 +32,18 @@ public class AInteger {
             this.value = s;
         }
     }
-
+    //take another AInterger as input *testing*
     public AInteger(AInteger other) {
         this.value = other.value;
         this.isNegative = other.isNegative;
     }
 
+    //parses AInteger
     public static AInteger parse(String s) {
         return new AInteger(s);
     }
 
+    //truncates leading zeros
     public String truncate(String str) {
         while (str.length() > 1 && str.charAt(0) == '0') {
             str = str.substring(1);
@@ -45,6 +51,7 @@ public class AInteger {
         return str;
     }
 
+    //compares 2 strings values
     public Boolean compareString(String s1, String s2){
 
         s1 = truncate(s1);
@@ -72,12 +79,13 @@ public class AInteger {
         }
     }
     
-
+    //method to get value in a formatted form
     public String getValue(){
         if(truncate(this.value).equals("0")) { this.isNegative = false; }
         return ((this.isNegative ? "-" : "") + truncate(this.value));
     }
 
+    //method to add/substract checking the sign
     public AInteger add(AInteger other){
         if(this.isNegative == other.isNegative){
             String result = addStrings(this.value, other.value);
@@ -89,6 +97,7 @@ public class AInteger {
         }
     }
 
+    //method to add/subtract checking the sign
     public AInteger subtract(AInteger other) {
         if (this.isNegative == other.isNegative) {
 
@@ -107,6 +116,7 @@ public class AInteger {
         }
     }
 
+    //method to add 2 strings 
     public String addStrings(String num1, String num2) {
         String result = "";
         int len1 = num1.length();
@@ -128,6 +138,7 @@ public class AInteger {
         return result;
     }
 
+    //method to subtract 2 strings 
     public String subtractStrings(String num1, String num2) {
         String result = "";
         int len1 = num1.length();
@@ -153,6 +164,7 @@ public class AInteger {
         return result;
     }
 
+    //method to multiply 2 strings 
     public AInteger multiply( AInteger other){
 
         AInteger temp = new AInteger();
@@ -201,6 +213,7 @@ public class AInteger {
 
     }
 
+    //method to divide 2 strings 
     public AInteger divide(AInteger other){
 
         if(this.value.equals("0")){

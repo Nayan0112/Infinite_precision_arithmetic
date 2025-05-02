@@ -29,8 +29,10 @@ def main():
         A.compile()
 
         print("\nOutput :")
-
-        A.run(lst[1], lst[2], lst[3])
+        try :
+            A.run(lst[1], lst[2], lst[3])
+        except IndexError as e :
+            print("Error :", e)
 
 if __name__ == "__main__":
     main()

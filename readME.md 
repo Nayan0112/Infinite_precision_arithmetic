@@ -109,6 +109,14 @@ For the above example, the output will be:
 ```bash
 30
 ```
+## Run with python script :
+
+```bash 
+python3 MyInfArith.py```
+
+The program expects input in the form of <DataType> <operation> <x> <y>
+and it runs in an infinite loop for testing purposes and can be exitted by pressing Ctrl + C
+
 
 ## Error Handling
 

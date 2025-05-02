@@ -6,13 +6,16 @@ public class AFloat{
     String integer;
     String fractional;
 
+    //class constructor default
     public AFloat(){
         this.isNegative = false;
         this.integer = "0";
         this.fractional = "0";
     }
 
+    //class constructor when an string is passed
     public AFloat(String s) {
+        //checks for any invalid type input 
         int countSign = 0;
         int countDec = 0;
         for (int i = 0; i < s.length(); i++) {
@@ -34,6 +37,7 @@ public class AFloat{
             }
         }
         
+        //assigns vlaues 
         if (s.charAt(0) == '-') {
             this.isNegative = true;
             s = s.substring(1);
@@ -54,10 +58,12 @@ public class AFloat{
 
     }
 
+    //parses AInteger 
     public static AFloat parse(String s){
         return new AFloat(s);
     }
 
+    //method to extract the value from the class in a formatted manner
     public String getValue(){
         this.integer = truncate(this.integer);
         this.fractional = trim(fractional);
@@ -66,6 +72,7 @@ public class AFloat{
         return ((this.isNegative ? "-" : "") + this.integer + "." + this.fractional);
     }
 
+    //truncates leading zeros
     public String truncate(String str) {
         while (str.length() > 1 && str.charAt(0) == '0') {
             str = str.substring(1);
@@ -73,6 +80,7 @@ public class AFloat{
         return str;
     }
 
+    //trims the trailing zeros
     public String trim(String str) {
         int i = str.length() - 1;
 
@@ -89,7 +97,7 @@ public class AFloat{
         return str.substring(0, i + 1);
     }
     
-
+    //function to compare values of the string 
     public Boolean compareString(String s1, String s2){
 
         s1 = truncate(s1);
@@ -112,6 +120,7 @@ public class AFloat{
         }
     }
 
+    //provides padding for fraction parts
     public String[] equalizeFractionLengths(String f1, String f2) {
         int len1 = f1.length();
         int len2 = f2.length();
@@ -125,6 +134,7 @@ public class AFloat{
         return new String[]{f1, f2};
     }    
 
+    //method to add 2 strings 
     public String addStrings(String num1, String num2) {
         String result = "";
         int len1 = num1.length();
@@ -146,6 +156,7 @@ public class AFloat{
         return result;
     }
 
+    //method to add two strings 
     public String subtractStrings(String num1, String num2) {
         String result = "";
         int len1 = num1.length();
@@ -171,6 +182,7 @@ public class AFloat{
         return result;
     }
 
+    //method to assign add or substract in form of strings 
     public AFloat add(AFloat other){
         if(this.isNegative == other.isNegative){
             String[] f = equalizeFractionLengths(this.fractional, other.fractional);
@@ -189,7 +201,7 @@ public class AFloat{
     }
 
 
-
+    //mrthod to assign add or substract in form of strings 
     public AFloat subtract(AFloat other){
         if(this.isNegative == other.isNegative){
             String[] f = equalizeFractionLengths(this.fractional, other.fractional);
@@ -214,6 +226,7 @@ public class AFloat{
         }
     }
 
+    // method to multiply two numbers
     public AFloat multiply(AFloat other){
 
         AFloat temp = new AFloat();
@@ -270,6 +283,7 @@ public class AFloat{
         return temp;
     }
 
+    //method tp divide 2 numbers
     public AFloat divide(AFloat other) {
         if (this.integer.equals("0") && this.fractional.equals("0")) {
             return new AFloat("0");
@@ -325,7 +339,7 @@ public class AFloat{
         return result;
     }
     
-    
+    //RAW TESTING IGNORE ###############################################################################################################################
 
     // public static void main(String[] args) {
     //     System.out.println(new AFloat("9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999.999999999").add(new AFloat("0.000000000000000000000000000000000000000000000000000000000000000000000001")).getValue()); // Large + tiny
